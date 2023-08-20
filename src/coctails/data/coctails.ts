@@ -1,8 +1,8 @@
+import { Unit } from "../../ingredients/types/Unit";
 import { Glass } from "../types/Glass";
 import { ICoctail } from "../types/ICoctail";
 import { Ice } from "../types/Ice";
 import { MixMethod } from "../types/MixMethod";
-import { Unit } from "../types/Unit";
 
 export const coctails: ICoctail[] = [
     {
@@ -14,7 +14,7 @@ export const coctails: ICoctail[] = [
             unit: Unit.Oz
         }],
         tags: [],
-        mixMethod: MixMethod.StearOnTopOfTheIce,
+        mixMethod: MixMethod.Stirred,
         ice: Ice.LargeCube,
         glass: Glass.Rock
     }

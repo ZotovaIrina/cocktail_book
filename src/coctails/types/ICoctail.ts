@@ -1,6 +1,6 @@
 import { Glass } from "./Glass"
 import { Ice } from "./Ice"
-import { IIngredientWithAmount } from "./IIngredientWithAmount"
+import { IIngredientWithAmount } from "../../ingredients/types/IIngredientWithAmount"
 import { MixMethod } from "./MixMethod"
 
 export interface ICoctail {
