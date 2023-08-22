@@ -1,3 +1,4 @@
 export default {
-    welcome: "Здравствуйте",
+    name: "Название",
+    category: 'Сатегория'
    };

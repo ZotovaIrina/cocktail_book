@@ -1,4 +1,4 @@
 export default {
-    welcome: 'Welcome!!!!',
-    helloWorld: 'Hello World',
+    name: 'Name',
+    category: 'Category'
   }

@@ -3,10 +3,10 @@ import { initReactI18next } from 'react-i18next'
 import en from './resourses/en'
 import ru from './resourses/ru'
 
-const languageDetector = {
+const languageDetector: any = {
   type: 'languageDetector',
   async: true,
-  detect: (cb) => cb('en'),
+  detect: (cb: any) => cb('en'),
   init: () => {},
   cacheUserLanguage: () => {},
 }

@@ -1,5 +1,6 @@
 import React from 'react'
-import { TextInput, View, Text } from 'react-native'
+import { TextInput } from 'react-native'
+import { InputCell } from './InputCell'
 
 interface TextInputProps {
   value?: string
@@ -15,13 +16,12 @@ export const TextField: React.FC<TextInputProps> = ({
   label,
 }) => {
   return (
-    <View>
-      <Text>{label}</Text>
+    <InputCell label={label}>
       <TextInput
         onChangeText={onChange}
         value={value}
         placeholder={placeholder}
       />
-    </View>
+    </InputCell>
   )
 }
