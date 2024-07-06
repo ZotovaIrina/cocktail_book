@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { SelectField } from '../../sharedComponents/SelectField'
 import { useForm } from 'react-hook-form'
 import { TopNavigation } from '../../navigation/TopNavigation'
+import { Category } from '../types/Category'
 
 export const AddIngredient: React.FC<{ navigation: any }> = ({
   navigation,
@@ -13,11 +14,11 @@ export const AddIngredient: React.FC<{ navigation: any }> = ({
   const [text, onChangeText] = React.useState('Useless Text')
   const { register, handleSubmit } = useForm<{
     ingredientName: string
-    category: string
+    description?: string
+    category?: Category
   }>({
     defaultValues: {
-      ingredientName: '',
-      category: '',
+      ingredientName: ''
     },
   })
 
@@ -28,7 +29,8 @@ export const AddIngredient: React.FC<{ navigation: any }> = ({
         <TopNavigation navigation={navigation} />
         <form onSubmit={handleSubmit((data) => console.log(data))}>
           <TextField label={t('name')} {...register('ingredientName')} />
-          <SelectField
+          <TextField label={t('name')} {...register('description')} />
+          {/* <SelectField
             label={t('category')}
             options={[
               {
@@ -37,7 +39,7 @@ export const AddIngredient: React.FC<{ navigation: any }> = ({
               },
             ]}
             onSelect={() => {}}
-          />
+          /> */}
         </form>
       </SafeAreaView>
     </View>
