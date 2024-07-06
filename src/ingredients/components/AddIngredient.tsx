@@ -9,6 +9,7 @@ import { Button } from 'react-native-paper'
 import { saveIngredient } from '../../api/ingredients'
 import { Notification } from '../../sharedComponents/Notification'
 import { Routes } from '../../../App'
+import { PageWrapper } from '../../navigation/PageWrapper'
 
 interface AddIngredientForm {
   ingredientName: string
@@ -40,21 +41,22 @@ export const AddIngredient: FC<{ navigation: any }> = ({ navigation }) => {
   }
 
   return (
-    <View>
-      <SafeAreaView>
-        <TopNavigation navigation={navigation} />
+    <>
+      <TopNavigation navigation={navigation} />
+      <PageWrapper>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <TextField
-            label={t('name')}
-            name="ingredientName"
-            control={control}
-          />
-          <TextField
-            label={t('description')}
-            name="description"
-            control={control}
-          />
-          {/* <SelectField
+          <View style={{ gap: 12 }}>
+            <TextField
+              label={t('name')}
+              name="ingredientName"
+              control={control}
+            />
+            <TextField
+              label={t('description')}
+              name="description"
+              control={control}
+            />
+            {/* <SelectField
             label={t('category')}
             options={[
               {
@@ -64,27 +66,28 @@ export const AddIngredient: FC<{ navigation: any }> = ({ navigation }) => {
             ]}
             onSelect={() => {}}
           /> */}
-          <Button
-            mode="contained"
-            loading={formState.isSubmitting}
-            onPress={handleSubmit(onSubmit)}
-          >
-            {t('save')}
-          </Button>
+            <Button
+              mode="contained"
+              loading={formState.isSubmitting}
+              onPress={handleSubmit(onSubmit)}
+            >
+              {t('save')}
+            </Button>
+          </View>
         </form>
-        {showSuccessMessage && (
-          <Notification
-            notification="Success"
-            onDismiss={() => navigation.push(Routes.Ingredients)}
-          />
-        )}
-        {showErrorMessage && (
-          <Notification
-            notification={showErrorMessage}
-            onDismiss={() => setShowErrorMessage('')}
-          />
-        )}
-      </SafeAreaView>
-    </View>
+      </PageWrapper>
+      {showSuccessMessage && (
+        <Notification
+          notification="Success"
+          onDismiss={() => navigation.push(Routes.Ingredients)}
+        />
+      )}
+      {showErrorMessage && (
+        <Notification
+          notification={showErrorMessage}
+          onDismiss={() => setShowErrorMessage('')}
+        />
+      )}
+    </>
   )
 }

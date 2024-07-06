@@ -1,4 +1,4 @@
-import { View, SafeAreaView } from 'react-native'
+import { View, SafeAreaView, ScrollView } from 'react-native'
 import { useEffect, useState } from 'react'
 import { TopNavigation } from '../../navigation/TopNavigation'
 import { getIngredients } from '../../api/ingredients'
@@ -39,9 +39,9 @@ export function Ingredients({ navigation }: { navigation: any }) {
   }, [navigation.isFocused()])
 
   return (
-    <View>
-      <SafeAreaView>
-        <TopNavigation navigation={navigation} />
+    <SafeAreaView style={{ flex: 1 }}>
+      <TopNavigation navigation={navigation} />
+      <ScrollView testID="scroll" style={{ maxHeight: '90%' }}>
         <DataTable>
           <DataTable.Header>
             <DataTable.Title sortDirection="descending">
@@ -56,21 +56,21 @@ export function Ingredients({ navigation }: { navigation: any }) {
               <DataTable.Cell>{ingredient.description}</DataTable.Cell>
             </DataTable.Row>
           ))}
-
-          <DataTable.Pagination
-            page={page}
-            numberOfPages={Math.ceil(ingredients.length / itemsPerPage)}
-            onPageChange={(page) => setPage(page)}
-            label={`${from + 1}-${to} of ${ingredients.length}`}
-            numberOfItemsPerPageList={numberOfItemsPerPageList}
-            numberOfItemsPerPage={itemsPerPage}
-            onItemsPerPageChange={onItemsPerPageChange}
-            showFastPaginationControls
-            selectPageDropdownLabel={''}
-          />
         </DataTable>
-        <AddButton navigation={navigation} />
-      </SafeAreaView>
-    </View>
+      </ScrollView>
+      <DataTable.Pagination
+        page={page}
+        numberOfPages={Math.ceil(ingredients.length / itemsPerPage)}
+        onPageChange={(page) => setPage(page)}
+        label={`${from + 1}-${to} of ${ingredients.length}`}
+        numberOfItemsPerPageList={numberOfItemsPerPageList}
+        numberOfItemsPerPage={itemsPerPage}
+        onItemsPerPageChange={onItemsPerPageChange}
+        showFastPaginationControls
+        selectPageDropdownLabel={''}
+      />
+
+      <AddButton navigation={navigation} />
+    </SafeAreaView>
   )
 }

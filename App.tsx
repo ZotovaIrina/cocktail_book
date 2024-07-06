@@ -17,8 +17,14 @@ export enum Routes {
   AddIngredient = 'AddIngredient',
   Cocktails = 'Cocktails',
 }
+const screenLabel: Record<Routes, string> = {
+  [Routes.AddIngredient]: 'navigation.addIngredient',
+  [Routes.Ingredients]: 'navigation.ingredients',
+  [Routes.Cocktails]: 'navigation.cocktails',
+}
 
 export default function App() {
+  const { t } = useTranslation()
   return (
     <NavigationContainer
       linking={{
@@ -33,13 +39,31 @@ export default function App() {
       }}
     >
       <PaperProvider>
-        <Stack.Navigator initialRouteName={Routes.Ingredients}>
-          <Stack.Screen name={Routes.Ingredients}>
-            {(props) => <Ingredients navigation={props.navigation} />}
-          </Stack.Screen>
-          <Stack.Screen name={Routes.AddIngredient} component={AddIngredient} />
-          <Stack.Screen name={Routes.Cocktails} component={Cocktails} />
-        </Stack.Navigator>
+        <View testID="app-wrapper" style={{ flex: 1 }}>
+          <Stack.Navigator
+            initialRouteName={Routes.Ingredients}
+            screenOptions={{ headerTitleAlign: 'center' }}
+          >
+            <Stack.Screen
+              name={Routes.Ingredients}
+              options={{ title: t(screenLabel[Routes.Ingredients]) }}
+            >
+              {(props) => <Ingredients navigation={props.navigation} />}
+            </Stack.Screen>
+            <Stack.Screen
+              name={Routes.AddIngredient}
+              component={AddIngredient}
+              options={{
+                title: t(screenLabel[Routes.AddIngredient]),
+              }}
+            />
+            <Stack.Screen
+              name={Routes.Cocktails}
+              component={Cocktails}
+              options={{ title: t(screenLabel[Routes.Cocktails]) }}
+            />
+          </Stack.Navigator>
+        </View>
       </PaperProvider>
     </NavigationContainer>
   )
