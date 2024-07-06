@@ -4,6 +4,7 @@ export default {
     navigation: {
         appName: 'Коктейли',
         ingredients: 'Ингридиенты',
-        addIngredient: 'Добавить новый ингредиент'
+        addIngredient: 'Добавить новый ингредиент',
+        cocktails: 'Коктейли'
       }
    };

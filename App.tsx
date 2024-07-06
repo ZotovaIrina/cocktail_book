@@ -8,12 +8,14 @@ import { PaperProvider } from 'react-native-paper'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { Ingredients } from './src/ingredients/components/Ingredients'
+import { Cocktails } from './src/ingredients/components/Cocktails'
 
 const Stack = createNativeStackNavigator()
 
 export enum Routes {
   Ingredients = 'Ingredients',
-  AddIngredient = 'AddIngredient'
+  AddIngredient = 'AddIngredient',
+  Cocktails = 'Cocktails'
 }
 
 export default function App() {
@@ -26,6 +28,7 @@ export default function App() {
             {(props) => <Ingredients navigation={props.navigation} />}
           </Stack.Screen>
           <Stack.Screen name={Routes.AddIngredient} component={AddIngredient} />
+          <Stack.Screen name={Routes.Cocktails} component={Cocktails} />
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>
