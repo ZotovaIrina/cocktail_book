@@ -2,6 +2,8 @@ export default {
     name: 'Name',
     category: 'Category',
     navigation: {
-      appName: 'Cocktail book'
+      appName: 'Cocktail book',
+      ingredients: 'Ingredients',
+      addIngredient: 'Add New Ingredient'
     }
   }

@@ -2,12 +2,12 @@ import { View, SafeAreaView } from 'react-native'
 import { FC } from 'react'
 import { TopNavigation } from '../../navigation/TopNavigation'
 
-export const Ingredients: FC<{ navigation: any }> = ({ navigation }) => {
+export const Cocktails: FC<{ navigation: any }> = ({ navigation }) => {
   return (
     <View>
       <SafeAreaView>
         <TopNavigation navigation={navigation} />
-        Ingredients
+        Cocktails
       </SafeAreaView>
     </View>
   )

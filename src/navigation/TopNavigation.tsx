@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useState, FC } from 'react'
 import { useTranslation } from 'react-i18next'
 import { View, Text } from 'react-native'
 import { Appbar, Button, Menu, Divider } from 'react-native-paper'
+import { Routes } from '../../App'
 
-export const TopNavigation = () => {
+export const TopNavigation: FC<{ navigation: any }> = ({ navigation }) => {
   const { t } = useTranslation()
   const [visible, setVisible] = useState<boolean>(false)
 
@@ -18,10 +19,20 @@ export const TopNavigation = () => {
         anchorPosition="bottom"
         anchor={<Appbar.Action icon="menu" onPress={openMenu} />}
       >
-        <Menu.Item onPress={() => {}} title="Item 1" />
-        <Menu.Item onPress={() => {}} title="Item 2" />
-        <Divider />
-        <Menu.Item onPress={() => {}} title="Item 3" />
+        <Menu.Item
+          onPress={() => {
+            navigation.navigate(Routes.Ingredients)
+            closeMenu()
+          }}
+          title={t('navigation.ingredients')}
+        />
+        <Menu.Item
+          onPress={() => {
+            navigation.navigate(Routes.AddIngredient)
+            closeMenu()
+          }}
+          title={t('navigation.addIngredient')}
+        />
       </Menu>
       <Appbar.Content title={t('navigation.appName')} />
     </Appbar.Header>

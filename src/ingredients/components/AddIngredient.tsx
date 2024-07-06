@@ -4,8 +4,11 @@ import { TextField } from '../../sharedComponents/TextField'
 import { useTranslation } from 'react-i18next'
 import { SelectField } from '../../sharedComponents/SelectField'
 import { useForm } from 'react-hook-form'
+import { TopNavigation } from '../../navigation/TopNavigation'
 
-export const AddIngredient = () => {
+export const AddIngredient: React.FC<{ navigation: any }> = ({
+  navigation,
+}) => {
   const { t } = useTranslation()
   const [text, onChangeText] = React.useState('Useless Text')
   const { register, handleSubmit } = useForm<{
@@ -22,11 +25,9 @@ export const AddIngredient = () => {
   return (
     <View>
       <SafeAreaView>
+        <TopNavigation navigation={navigation} />
         <form onSubmit={handleSubmit((data) => console.log(data))}>
-          <TextField
-            label={t('name')}
-            {...register('ingredientName')}
-          />
+          <TextField label={t('name')} {...register('ingredientName')} />
           <SelectField
             label={t('category')}
             options={[
