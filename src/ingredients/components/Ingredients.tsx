@@ -7,6 +7,7 @@ import { DataTable } from 'react-native-paper'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useTranslation } from 'react-i18next'
 import { AddButton } from '../../navigation/AddButton'
+import { PageWrapper } from '../../navigation/PageWrapper'
 
 export function Ingredients({ navigation }: { navigation: any }) {
   const { t } = useTranslation()
@@ -39,38 +40,39 @@ export function Ingredients({ navigation }: { navigation: any }) {
   }, [navigation.isFocused()])
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <TopNavigation navigation={navigation} />
-      <ScrollView testID="scroll" style={{ maxHeight: '90%' }}>
-        <DataTable>
-          <DataTable.Header>
-            <DataTable.Title sortDirection="descending">
-              {t('name')}
-            </DataTable.Title>
-            <DataTable.Title>{t('description')}</DataTable.Title>
-          </DataTable.Header>
+    <>
+      <PageWrapper>
+        <ScrollView testID="scroll" style={{ maxHeight: '90%' }}>
+          <DataTable>
+            <DataTable.Header>
+              <DataTable.Title sortDirection="descending">
+                {t('name')}
+              </DataTable.Title>
+              <DataTable.Title>{t('description')}</DataTable.Title>
+            </DataTable.Header>
 
-          {ingredients.slice(from, to).map((ingredient) => (
-            <DataTable.Row key={ingredient._id}>
-              <DataTable.Cell>{ingredient.name}</DataTable.Cell>
-              <DataTable.Cell>{ingredient.description}</DataTable.Cell>
-            </DataTable.Row>
-          ))}
-        </DataTable>
-      </ScrollView>
-      <DataTable.Pagination
-        page={page}
-        numberOfPages={Math.ceil(ingredients.length / itemsPerPage)}
-        onPageChange={(page) => setPage(page)}
-        label={`${from + 1}-${to} of ${ingredients.length}`}
-        numberOfItemsPerPageList={numberOfItemsPerPageList}
-        numberOfItemsPerPage={itemsPerPage}
-        onItemsPerPageChange={onItemsPerPageChange}
-        showFastPaginationControls
-        selectPageDropdownLabel={''}
-      />
+            {ingredients.slice(from, to).map((ingredient) => (
+              <DataTable.Row key={ingredient._id}>
+                <DataTable.Cell>{ingredient.name}</DataTable.Cell>
+                <DataTable.Cell>{ingredient.description}</DataTable.Cell>
+              </DataTable.Row>
+            ))}
+          </DataTable>
+        </ScrollView>
+        <DataTable.Pagination
+          page={page}
+          numberOfPages={Math.ceil(ingredients.length / itemsPerPage)}
+          onPageChange={(page) => setPage(page)}
+          label={`${from + 1}-${to} of ${ingredients.length}`}
+          numberOfItemsPerPageList={numberOfItemsPerPageList}
+          numberOfItemsPerPage={itemsPerPage}
+          onItemsPerPageChange={onItemsPerPageChange}
+          showFastPaginationControls
+          selectPageDropdownLabel={''}
+        />
 
-      <AddButton navigation={navigation} />
-    </SafeAreaView>
+        <AddButton navigation={navigation} />
+      </PageWrapper>
+    </>
   )
 }
