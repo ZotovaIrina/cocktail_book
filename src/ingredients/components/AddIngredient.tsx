@@ -75,7 +75,7 @@ export const AddIngredient: FC<{ navigation: any }> = ({ navigation }) => {
         {showSuccessMessage && (
           <Notification
             notification="Success"
-            onDismiss={navigation.push(Routes.Ingredients)}
+            onDismiss={() => navigation.push(Routes.Ingredients)}
           />
         )}
         {showErrorMessage && (

@@ -20,7 +20,18 @@ export enum Routes {
 
 export default function App() {
   return (
-    <NavigationContainer>
+    <NavigationContainer
+      linking={{
+        prefixes: ['/'],
+        config: {
+          screens: {
+            [Routes.AddIngredient]: Routes.AddIngredient,
+            [Routes.Ingredients]: Routes.Ingredients,
+            [Routes.Cocktails]: Routes.Cocktails,
+          },
+        },
+      }}
+    >
       <PaperProvider>
         <Stack.Navigator initialRouteName={Routes.Ingredients}>
           <Stack.Screen name={Routes.Ingredients}>
