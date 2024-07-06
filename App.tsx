@@ -27,7 +27,6 @@ const screenLabel: Record<Routes, string> = {
 }
 
 export default function App() {
-  const { t } = useTranslation()
   return (
     <PaperProvider>
       <TabNavigation />
@@ -35,6 +34,7 @@ export default function App() {
   )
 }
 export function StackNavigation() {
+  const { t } = useTranslation()
   return (
     <NavigationContainer
       linking={{
@@ -68,19 +68,30 @@ export function StackNavigation() {
           />
           <Stack.Screen
             name={Routes.Cocktails}
+            component={Cocktails}
             options={{ title: t(screenLabel[Routes.Cocktails]) }}
-          >
-            {(props) => <TabNavigation navigation={props.navigation} />}
-          </Stack.Screen>
+          ></Stack.Screen>
         </Stack.Navigator>
       </View>
     </NavigationContainer>
   )
 }
+
 export function TabNavigation() {
   const { t } = useTranslation()
   return (
-    <NavigationContainer>
+    <NavigationContainer
+      linking={{
+        prefixes: ['/'],
+        config: {
+          screens: {
+            [Routes.AddIngredient]: Routes.AddIngredient,
+            [Routes.Ingredients]: Routes.Ingredients,
+            [Routes.Cocktails]: Routes.Cocktails,
+          },
+        },
+      }}
+    >
       <Tabs.Navigator>
         <Tabs.Screen
           name={Routes.Cocktails}
@@ -98,6 +109,7 @@ export function TabNavigation() {
             title: t(screenLabel[Routes.Ingredients]),
           }}
         />
+
       </Tabs.Navigator>
     </NavigationContainer>
   )

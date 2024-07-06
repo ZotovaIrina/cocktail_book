@@ -20,7 +20,6 @@ export function Ingredients({ navigation }: { navigation: any }) {
   )
   const from = page * itemsPerPage
   const to = Math.min((page + 1) * itemsPerPage, ingredients.length)
-
   useEffect(() => {
     if (navigation.isFocused()) {
       //restore from local storage
@@ -40,39 +39,37 @@ export function Ingredients({ navigation }: { navigation: any }) {
   }, [navigation.isFocused()])
 
   return (
-    <>
-      <PageWrapper>
-        <ScrollView testID="scroll" style={{ maxHeight: '90%' }}>
-          <DataTable>
-            <DataTable.Header>
-              <DataTable.Title sortDirection="descending">
-                {t('name')}
-              </DataTable.Title>
-              <DataTable.Title>{t('description')}</DataTable.Title>
-            </DataTable.Header>
+    <PageWrapper>
+      <ScrollView testID="scroll" style={{ maxHeight: '90%' }}>
+        <DataTable>
+          <DataTable.Header>
+            <DataTable.Title sortDirection="descending">
+              {t('name')}
+            </DataTable.Title>
+            <DataTable.Title>{t('description')}</DataTable.Title>
+          </DataTable.Header>
 
-            {ingredients.slice(from, to).map((ingredient) => (
-              <DataTable.Row key={ingredient._id}>
-                <DataTable.Cell>{ingredient.name}</DataTable.Cell>
-                <DataTable.Cell>{ingredient.description}</DataTable.Cell>
-              </DataTable.Row>
-            ))}
-          </DataTable>
-        </ScrollView>
-        <DataTable.Pagination
-          page={page}
-          numberOfPages={Math.ceil(ingredients.length / itemsPerPage)}
-          onPageChange={(page) => setPage(page)}
-          label={`${from + 1}-${to} of ${ingredients.length}`}
-          numberOfItemsPerPageList={numberOfItemsPerPageList}
-          numberOfItemsPerPage={itemsPerPage}
-          onItemsPerPageChange={onItemsPerPageChange}
-          showFastPaginationControls
-          selectPageDropdownLabel={''}
-        />
+          {ingredients.slice(from, to).map((ingredient) => (
+            <DataTable.Row key={ingredient._id}>
+              <DataTable.Cell>{ingredient.name}</DataTable.Cell>
+              <DataTable.Cell>{ingredient.description}</DataTable.Cell>
+            </DataTable.Row>
+          ))}
+        </DataTable>
+      </ScrollView>
+      <DataTable.Pagination
+        page={page}
+        numberOfPages={Math.ceil(ingredients.length / itemsPerPage)}
+        onPageChange={(page) => setPage(page)}
+        label={`${from + 1}-${to} of ${ingredients.length}`}
+        numberOfItemsPerPageList={numberOfItemsPerPageList}
+        numberOfItemsPerPage={itemsPerPage}
+        onItemsPerPageChange={onItemsPerPageChange}
+        showFastPaginationControls
+        selectPageDropdownLabel={''}
+      />
 
-        <AddButton navigation={navigation} />
-      </PageWrapper>
-    </>
+      <AddButton navigation={navigation} />
+    </PageWrapper>
   )
 }
