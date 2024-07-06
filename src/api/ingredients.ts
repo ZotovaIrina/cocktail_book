@@ -1,0 +1,16 @@
+import axios from 'axios'
+import { BaseUrl } from './BaseUrl'
+import { IIngredient } from '../ingredients/types/IIngredient'
+
+const INGREDIENTS_BASE_URL = BaseUrl + '/ingredients'
+
+export const getIngredients = () =>
+  axios
+    .get<IIngredient[]>(`${INGREDIENTS_BASE_URL}/getAllIngredients`)
+    .then(function (response) {
+      return response.data
+    })
+    .catch(function (error) {
+      console.error(error)
+      throw Error(error.message)
+    })

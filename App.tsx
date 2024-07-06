@@ -15,11 +15,10 @@ const Stack = createNativeStackNavigator()
 export enum Routes {
   Ingredients = 'Ingredients',
   AddIngredient = 'AddIngredient',
-  Cocktails = 'Cocktails'
+  Cocktails = 'Cocktails',
 }
 
 export default function App() {
-  const { t } = useTranslation()
   return (
     <PaperProvider>
       <NavigationContainer>
@@ -35,12 +34,3 @@ export default function App() {
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'space-between',
-    width: '100%',
-    height: '100%',
-  },
-})

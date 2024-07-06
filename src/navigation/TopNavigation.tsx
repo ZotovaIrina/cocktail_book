@@ -1,7 +1,6 @@
 import { useState, FC } from 'react'
 import { useTranslation } from 'react-i18next'
-import { View, Text } from 'react-native'
-import { Appbar, Button, Menu, Divider } from 'react-native-paper'
+import { Appbar, Menu } from 'react-native-paper'
 import { Routes } from '../../App'
 
 export const TopNavigation: FC<{ navigation: any }> = ({ navigation }) => {
@@ -19,6 +18,13 @@ export const TopNavigation: FC<{ navigation: any }> = ({ navigation }) => {
         anchorPosition="bottom"
         anchor={<Appbar.Action icon="menu" onPress={openMenu} />}
       >
+        <Menu.Item
+          onPress={() => {
+            navigation.navigate(Routes.Cocktails)
+            closeMenu()
+          }}
+          title={t('navigation.cocktails')}
+        />
         <Menu.Item
           onPress={() => {
             navigation.navigate(Routes.Ingredients)
