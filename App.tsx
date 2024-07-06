@@ -1,19 +1,29 @@
 import { StatusBar } from 'expo-status-bar'
 import { StyleSheet, Text, View } from 'react-native'
 import { AddIngredient } from './src/ingredients/components/AddIngredient'
-
 import i18next from 'i18next'
 import { initReactI18next, useTranslation } from 'react-i18next'
 import './src/translate'
+import { PaperProvider } from 'react-native-paper'
+import { NavigationContainer } from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { Ingredients } from './src/ingredients/components/Ingredients'
+
+const Stack = createNativeStackNavigator()
 
 export default function App() {
   const { t } = useTranslation()
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <AddIngredient />
-      <StatusBar style="auto" />
-    </View>
+    <PaperProvider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Ingredients">
+          <Stack.Screen name="Ingredients">
+            {(props) => <Ingredients />}
+          </Stack.Screen>
+          <Stack.Screen name="AddIngredient" component={AddIngredient} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </PaperProvider>
   )
 }
 
@@ -21,7 +31,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+    height: '100%',
   },
 })

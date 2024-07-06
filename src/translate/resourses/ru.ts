@@ -1,4 +1,7 @@
 export default {
     name: "Название",
-    category: 'Сатегория'
+    category: 'Категория',
+    navigation: {
+        appName: 'Коктейли'
+      }
    };

@@ -1,10 +1,9 @@
 import React from 'react'
-import { TextInput } from 'react-native'
-import { InputCell } from './InputCell'
+import { TextInput } from 'react-native-paper'
 
 interface TextInputProps {
   value?: string
-  onChange: (val?: string) => void
+  onChange: (val: { target: { value: string } }) => void
   placeholder?: string
   label: string
 }
@@ -16,12 +15,11 @@ export const TextField: React.FC<TextInputProps> = ({
   label,
 }) => {
   return (
-    <InputCell label={label}>
-      <TextInput
-        onChangeText={onChange}
-        value={value}
-        placeholder={placeholder}
-      />
-    </InputCell>
+    <TextInput
+      mode="outlined"
+      onChangeText={(text) => onChange({ target: { value: text } })}
+      value={value}
+      placeholder={placeholder}
+    />
   )
 }
