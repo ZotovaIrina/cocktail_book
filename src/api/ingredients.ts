@@ -14,3 +14,17 @@ export const getIngredients = () =>
       console.error(error)
       throw Error(error.message)
     })
+
+export const saveIngredient = (ingredient: {
+  name: string
+  description?: string
+}) =>
+  axios
+    .post<IIngredient>(`${INGREDIENTS_BASE_URL}`, ingredient)
+    .then(function (response) {
+      return response.data
+    })
+    .catch(function (error) {
+      console.error(error)
+      throw Error(error.message)
+    })

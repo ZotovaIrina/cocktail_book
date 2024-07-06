@@ -1,35 +1,59 @@
-import { View, SafeAreaView, TextInput, StyleSheet } from 'react-native'
-import React from 'react'
+import { View, SafeAreaView, StyleSheet, Role } from 'react-native'
+import React, { FC, useState } from 'react'
 import { TextField } from '../../sharedComponents/TextField'
 import { useTranslation } from 'react-i18next'
-import { SelectField } from '../../sharedComponents/SelectField'
 import { useForm } from 'react-hook-form'
 import { TopNavigation } from '../../navigation/TopNavigation'
 import { Category } from '../types/Category'
+import { Button } from 'react-native-paper'
+import { saveIngredient } from '../../api/ingredients'
+import { Notification } from '../../sharedComponents/Notification'
+import { Routes } from '../../../App'
 
-export const AddIngredient: React.FC<{ navigation: any }> = ({
-  navigation,
-}) => {
+interface AddIngredientForm {
+  ingredientName: string
+  description?: string
+  category?: Category
+}
+
+export const AddIngredient: FC<{ navigation: any }> = ({ navigation }) => {
   const { t } = useTranslation()
-  const [text, onChangeText] = React.useState('Useless Text')
-  const { register, handleSubmit } = useForm<{
-    ingredientName: string
-    description?: string
-    category?: Category
-  }>({
+  const [text, onChangeText] = useState('Useless Text')
+  const { control, handleSubmit, formState } = useForm<AddIngredientForm>({
     defaultValues: {
-      ingredientName: ''
+      ingredientName: '',
+      description: '',
     },
   })
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false)
+  const [showErrorMessage, setShowErrorMessage] = useState<string>('')
+  const onSubmit = async (data: AddIngredientForm) => {
+    try {
+      await saveIngredient({
+        name: data.ingredientName,
+        description: Boolean(data.description) ? data.description : undefined,
+      })
+      setShowSuccessMessage(true)
+    } catch (e: any) {
+      setShowErrorMessage(e.message)
+    }
+  }
 
-  const [number, onChangeNumber] = React.useState('')
   return (
     <View>
       <SafeAreaView>
         <TopNavigation navigation={navigation} />
-        <form onSubmit={handleSubmit((data) => console.log(data))}>
-          <TextField label={t('name')} {...register('ingredientName')} />
-          <TextField label={t('name')} {...register('description')} />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <TextField
+            label={t('name')}
+            name="ingredientName"
+            control={control}
+          />
+          <TextField
+            label={t('description')}
+            name="description"
+            control={control}
+          />
           {/* <SelectField
             label={t('category')}
             options={[
@@ -40,7 +64,26 @@ export const AddIngredient: React.FC<{ navigation: any }> = ({
             ]}
             onSelect={() => {}}
           /> */}
+          <Button
+            mode="contained"
+            loading={formState.isSubmitting}
+            onPress={handleSubmit(onSubmit)}
+          >
+            {t('save')}
+          </Button>
         </form>
+        {showSuccessMessage && (
+          <Notification
+            notification="Success"
+            onDismiss={navigation.push(Routes.Ingredients)}
+          />
+        )}
+        {showErrorMessage && (
+          <Notification
+            notification={showErrorMessage}
+            onDismiss={() => setShowErrorMessage('')}
+          />
+        )}
       </SafeAreaView>
     </View>
   )

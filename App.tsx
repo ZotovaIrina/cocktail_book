@@ -20,8 +20,8 @@ export enum Routes {
 
 export default function App() {
   return (
-    <PaperProvider>
-      <NavigationContainer>
+    <NavigationContainer>
+      <PaperProvider>
         <Stack.Navigator initialRouteName={Routes.Ingredients}>
           <Stack.Screen name={Routes.Ingredients}>
             {(props) => <Ingredients navigation={props.navigation} />}
@@ -29,8 +29,7 @@ export default function App() {
           <Stack.Screen name={Routes.AddIngredient} component={AddIngredient} />
           <Stack.Screen name={Routes.Cocktails} component={Cocktails} />
         </Stack.Navigator>
-      </NavigationContainer>
-    </PaperProvider>
+      </PaperProvider>
+    </NavigationContainer>
   )
 }
-

@@ -17,7 +17,7 @@ export const AddButton: FC<{ navigation: any }> = ({ navigation }) => {
           {
             icon: 'ammunition',
             label: t('navigation.addIngredient'),
-            onPress: () => navigation.navigate(Routes.AddIngredient),
+            onPress: () => navigation.push(Routes.AddIngredient),
           },
         ]}
         onStateChange={({ open }) => setOpen(open)}
