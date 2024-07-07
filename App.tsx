@@ -9,11 +9,15 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { Ingredients } from './src/ingredients/components/Ingredients'
 import { Cocktails } from './src/cocktails/Cocktails'
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { FC } from 'react'
+import { BottomNavigation } from 'react-native-paper'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import { CommonActions } from '@react-navigation/native'
+import { AddButton } from './src/navigation/AddButton'
 
 const Stack = createNativeStackNavigator()
-const Tabs = createMaterialBottomTabNavigator()
+const Tab = createBottomTabNavigator()
 
 export enum Routes {
   Ingredients = 'Ingredients',
@@ -33,49 +37,6 @@ export default function App() {
     </PaperProvider>
   )
 }
-export function StackNavigation() {
-  const { t } = useTranslation()
-  return (
-    <NavigationContainer
-      linking={{
-        prefixes: ['/'],
-        config: {
-          screens: {
-            [Routes.AddIngredient]: Routes.AddIngredient,
-            [Routes.Ingredients]: Routes.Ingredients,
-            [Routes.Cocktails]: Routes.Cocktails,
-          },
-        },
-      }}
-    >
-      <View testID="app-wrapper" style={{ flex: 1 }}>
-        <Stack.Navigator
-          initialRouteName={Routes.Ingredients}
-          screenOptions={{ headerTitleAlign: 'center' }}
-        >
-          <Stack.Screen
-            name={Routes.Ingredients}
-            options={{ title: t(screenLabel[Routes.Ingredients]) }}
-          >
-            {(props) => <Ingredients navigation={props.navigation} />}
-          </Stack.Screen>
-          <Stack.Screen
-            name={Routes.AddIngredient}
-            component={AddIngredient}
-            options={{
-              title: t(screenLabel[Routes.AddIngredient]),
-            }}
-          />
-          <Stack.Screen
-            name={Routes.Cocktails}
-            component={Cocktails}
-            options={{ title: t(screenLabel[Routes.Cocktails]) }}
-          ></Stack.Screen>
-        </Stack.Navigator>
-      </View>
-    </NavigationContainer>
-  )
-}
 
 export function TabNavigation() {
   const { t } = useTranslation()
@@ -92,25 +53,74 @@ export function TabNavigation() {
         },
       }}
     >
-      <Tabs.Navigator>
-        <Tabs.Screen
+      <Tab.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+        tabBar={({ navigation, state, descriptors, insets }) => (
+          <BottomNavigation.Bar
+            navigationState={state}
+            safeAreaInsets={insets}
+            onTabPress={({ route, preventDefault }) => {
+              const event = navigation.emit({
+                type: 'tabPress',
+                target: route.key,
+                canPreventDefault: true,
+              })
+
+              if (event.defaultPrevented) {
+                preventDefault()
+              } else {
+                navigation.dispatch({
+                  ...CommonActions.navigate(route.name, route.params),
+                  target: state.key,
+                })
+              }
+            }}
+            renderIcon={({ route, focused, color }) => {
+              const { options } = descriptors[route.key]
+              if (options.tabBarIcon) {
+                return options.tabBarIcon({ focused, color, size: 24 })
+              }
+
+              return null
+            }}
+            getLabelText={({ route }) => {
+              const { options } = descriptors[route.key]
+              const label =
+                options.tabBarLabel !== undefined
+                  ? options.tabBarLabel
+                  : options.title !== undefined
+                  ? options.title
+                  : route.title
+
+              return label
+            }}
+          />
+        )}
+      >
+        <Tab.Screen
           name={Routes.Cocktails}
           component={Cocktails}
           options={{
-            tabBarIcon: 'glass-cocktail',
+            tabBarIcon: ({ color, size }) => {
+              return <Icon name="glass-cocktail" size={size} color={color} />
+            },
             title: t(screenLabel[Routes.Cocktails]),
           }}
         />
-        <Tabs.Screen
+      
+        <Tab.Screen
           name={Routes.Ingredients}
           component={Ingredients}
           options={{
-            tabBarIcon: 'bottle-wine',
+            tabBarIcon: ({ color, size }) => {
+              return <Icon name="bottle-wine" size={size} color={color} />
+            },
             title: t(screenLabel[Routes.Ingredients]),
           }}
         />
-
-      </Tabs.Navigator>
+      </Tab.Navigator>
     </NavigationContainer>
   )
 }
