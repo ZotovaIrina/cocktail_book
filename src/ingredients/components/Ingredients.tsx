@@ -68,8 +68,6 @@ export function Ingredients({ navigation }: { navigation: any }) {
         showFastPaginationControls
         selectPageDropdownLabel={''}
       />
-
-      <AddButton navigation={navigation} />
     </PageWrapper>
   )
 }

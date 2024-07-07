@@ -15,6 +15,7 @@ import { BottomNavigation } from 'react-native-paper'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { CommonActions } from '@react-navigation/native'
 import { AddButton } from './src/navigation/AddButton'
+import { BottomNav } from './src/navigation/BottomNavigation'
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -24,7 +25,7 @@ export enum Routes {
   AddIngredient = 'AddIngredient',
   Cocktails = 'Cocktails',
 }
-const screenLabel: Record<Routes, string> = {
+export const screenLabel: Record<Routes, string> = {
   [Routes.AddIngredient]: 'navigation.addIngredient',
   [Routes.Ingredients]: 'navigation.ingredients',
   [Routes.Cocktails]: 'navigation.cocktails',
@@ -33,7 +34,7 @@ const screenLabel: Record<Routes, string> = {
 export default function App() {
   return (
     <PaperProvider>
-      <TabNavigation />
+      <BottomNav />
     </PaperProvider>
   )
 }
@@ -109,7 +110,7 @@ export function TabNavigation() {
             title: t(screenLabel[Routes.Cocktails]),
           }}
         />
-      
+
         <Tab.Screen
           name={Routes.Ingredients}
           component={Ingredients}
