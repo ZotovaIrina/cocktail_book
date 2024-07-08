@@ -1,6 +1,5 @@
 import { View, SafeAreaView, ScrollView } from 'react-native'
 import { useEffect, useState } from 'react'
-import { TopNavigation } from '../../navigation/TopNavigation'
 import { getIngredients } from '../../api/ingredients'
 import { IIngredient } from '../types/IIngredient'
 import { DataTable } from 'react-native-paper'
@@ -68,6 +67,7 @@ export function Ingredients({ navigation }: { navigation: any }) {
         showFastPaginationControls
         selectPageDropdownLabel={''}
       />
+      <AddButton/>
     </PageWrapper>
   )
 }

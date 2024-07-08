@@ -3,13 +3,12 @@ import React, { FC, useState } from 'react'
 import { TextField } from '../../sharedComponents/TextField'
 import { useTranslation } from 'react-i18next'
 import { useForm } from 'react-hook-form'
-import { TopNavigation } from '../../navigation/TopNavigation'
 import { Category } from '../types/Category'
 import { Button } from 'react-native-paper'
 import { saveIngredient } from '../../api/ingredients'
 import { Notification } from '../../sharedComponents/Notification'
-import { Routes } from '../../../App'
 import { PageWrapper } from '../../navigation/PageWrapper'
+import { Routes } from '../../navigation/BottomNavigation'
 
 interface AddIngredientForm {
   ingredientName: string
@@ -42,7 +41,6 @@ export const AddIngredient: FC<{ navigation: any }> = ({ navigation }) => {
 
   return (
     <>
-      <TopNavigation navigation={navigation} />
       <PageWrapper>
         <form onSubmit={handleSubmit(onSubmit)}>
           <View style={{ gap: 12 }}>
