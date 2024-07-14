@@ -1,12 +1,14 @@
 import { FC, useState } from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { Text, FAB,  IconButton, Menu } from 'react-native-paper'
+import { Text, FAB, IconButton, Menu } from 'react-native-paper'
 import { Ingredients } from '../ingredients/components/Ingredients'
 import { Cocktails } from '../cocktails/Cocktails'
 import { View, TouchableOpacity } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 import { AddIngredient } from '../ingredients/components/AddIngredient'
+import { Settings } from '../settings/Settings'
+import { ShoppingCart } from '../shoppingCart/ShoppingCart'
 
 const Tab = createBottomTabNavigator()
 interface Route {
@@ -32,7 +34,6 @@ export enum Routes {
 
 enum MenuName {
   Plus = 'plus',
-  Settings = 'settings',
 }
 
 export const routesConfig: Record<Routes, RouteConfig> = {
@@ -62,11 +63,10 @@ export const routesConfig: Record<Routes, RouteConfig> = {
   [Routes.SettingsMenu]: {
     label: 'navigation.settings',
     tabBarTestID: Routes.SettingsMenu,
-    menuName: MenuName.Settings,
     icon: 'cogs',
   },
   [Routes.ShoppingCart]: {
-    label: 'navigation.settings',
+    label: 'navigation.shoppingCart',
     tabBarTestID: Routes.ShoppingCart,
     icon: 'cart',
   },
@@ -74,6 +74,8 @@ export const routesConfig: Record<Routes, RouteConfig> = {
 
 function MyTabBar({ navigation, state, descriptors, insets }: any) {
   const { t } = useTranslation()
+
+  console.log('navigation', navigation, state)
   return (
     <View
       style={{
@@ -86,6 +88,7 @@ function MyTabBar({ navigation, state, descriptors, insets }: any) {
     >
       {state.routes.map((route: Route) => (
         <BottomMenuItem
+          key={route.key}
           route={route}
           selected={route.key === state.history[state.history.length - 1].key}
           navigation={navigation}
@@ -98,20 +101,70 @@ function MyTabBar({ navigation, state, descriptors, insets }: any) {
 // ...
 
 export const BottomNav = () => {
+  const { t } = useTranslation()
   return (
-    <NavigationContainer>
+    <NavigationContainer
+      linking={{
+        prefixes: [],
+        config: {
+          screens: {
+            [Routes.Cocktails]: Routes.Cocktails,
+            [Routes.Ingredients]: Routes.Ingredients,
+            [Routes.AddIngredient]: Routes.AddIngredient,
+            [Routes.SettingsMenu]: Routes.SettingsMenu,
+            [Routes.ShoppingCart]: Routes.ShoppingCart,
+          },
+        },
+      }}
+    >
       <Tab.Navigator
         tabBar={(props) => <MyTabBar {...props} />}
         screenOptions={({ route }) => ({
-          headerShown: false,
+          headerShown: true,
         })}
       >
-        <Tab.Screen name={Routes.Cocktails} component={Cocktails} />
-        <Tab.Screen name={Routes.Ingredients} component={Ingredients} />
-        <Tab.Screen name={Routes.PlusMenu} component={AddIngredient} />
-        <Tab.Screen name={Routes.ShoppingCart} component={Cocktails} />
-        <Tab.Screen name={Routes.SettingsMenu} component={Cocktails} />
-        <Tab.Screen name={Routes.AddIngredient} component={AddIngredient} />
+        <Tab.Screen
+          name={Routes.Cocktails}
+          component={Cocktails}
+          options={{
+            title: t(routesConfig[Routes.Cocktails].label),
+          }}
+        />
+        <Tab.Screen
+          name={Routes.Ingredients}
+          component={Ingredients}
+          options={{
+            title: t(routesConfig[Routes.Ingredients].label),
+          }}
+        />
+        <Tab.Screen
+          name={Routes.PlusMenu}
+          component={AddIngredient}
+          options={{
+            title: t(routesConfig[Routes.PlusMenu].label),
+          }}
+        />
+        <Tab.Screen
+          name={Routes.ShoppingCart}
+          component={ShoppingCart}
+          options={{
+            title: t(routesConfig[Routes.ShoppingCart].label),
+          }}
+        />
+        <Tab.Screen
+          name={Routes.SettingsMenu}
+          component={Settings}
+          options={{
+            title: t(routesConfig[Routes.SettingsMenu].label),
+          }}
+        />
+        <Tab.Screen
+          name={Routes.AddIngredient}
+          component={AddIngredient}
+          options={{
+            title: t(routesConfig[Routes.AddIngredient].label),
+          }}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   )
@@ -126,22 +179,19 @@ const BottomMenuItem: FC<{
   const options = routesConfig[route.name]
   const { t } = useTranslation()
   const onPress = ({ route, selected }: any) => {
-    const e = navigation.emit({
-      type: 'tabPress',
-      target: route.key,
-      canPreventDefault: true,
-    })
-
-    if (!selected && !e.defaultPrevented) {
+    if (!selected) {
       navigation.navigate(route.name, route.params)
     }
   }
+
   const onLongPress = ({ route, preventDefault }: any) => {
+    console.log('onLongPress')
     navigation.emit({
       type: 'tabLongPress',
       target: route.key,
     })
   }
+
   const getActions = (): {
     icon: string
     label: string
@@ -155,10 +205,7 @@ const BottomMenuItem: FC<{
       icon: action.icon,
       label: action.label,
       onPress: () => {
-        onPress({
-          route: route,
-          selected: selected,
-        })
+        navigation.navigate(action.tabBarTestID)
         setOpen(false)
       },
     }))
@@ -212,6 +259,7 @@ const BottomMenuItem: FC<{
         >
           {getActions().map((action) => (
             <Menu.Item
+              key={action.label}
               leadingIcon={action.icon}
               onPress={action.onPress}
               title={t(action.label)}

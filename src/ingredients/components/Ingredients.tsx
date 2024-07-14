@@ -5,7 +5,6 @@ import { IIngredient } from '../types/IIngredient'
 import { DataTable } from 'react-native-paper'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useTranslation } from 'react-i18next'
-import { AddButton } from '../../navigation/AddButton'
 import { PageWrapper } from '../../navigation/PageWrapper'
 
 export function Ingredients({ navigation }: { navigation: any }) {
@@ -67,7 +66,6 @@ export function Ingredients({ navigation }: { navigation: any }) {
         showFastPaginationControls
         selectPageDropdownLabel={''}
       />
-      <AddButton/>
     </PageWrapper>
   )
 }
