@@ -1,24 +1,19 @@
-import { FC, useState, useTransition } from 'react'
+import { FC, useState } from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import {
-  Button,
-  Text,
-  BottomNavigation,
-  FAB,
-  Drawer,
-  IconButton,
-  Menu,
-} from 'react-native-paper'
-import { CommonActions } from '@react-navigation/native'
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import { Text, FAB,  IconButton, Menu } from 'react-native-paper'
 import { Ingredients } from '../ingredients/components/Ingredients'
 import { Cocktails } from '../cocktails/Cocktails'
-import { View, TouchableOpacity, Touchable } from 'react-native'
+import { View, TouchableOpacity } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 import { AddIngredient } from '../ingredients/components/AddIngredient'
 
 const Tab = createBottomTabNavigator()
+interface Route {
+  name: Routes
+  key: string
+  params?: string[]
+}
 interface RouteConfig {
   label: string
   tabBarTestID: string
@@ -79,24 +74,24 @@ export const routesConfig: Record<Routes, RouteConfig> = {
 
 function MyTabBar({ navigation, state, descriptors, insets }: any) {
   const { t } = useTranslation()
-
   return (
-    <BottomNavigation.Bar
-      navigationState={state}
-      safeAreaInsets={insets}
-      keyboardHidesNavigationBar={true}
-      onTabPress={() => null}
-      onTabLongPress={() => null}
+    <View
       style={{
+        padding: '4%',
+        flexDirection: 'row',
         width: '100%',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         alignItems: 'center',
-        alignContent: 'center',
       }}
-      renderTouchable={(props) => (
-        <BottomMenuItem barProps={props} navigation={navigation} />
-      )}
-    />
+    >
+      {state.routes.map((route: Route) => (
+        <BottomMenuItem
+          route={route}
+          selected={route.key === state.history[state.history.length - 1].key}
+          navigation={navigation}
+        />
+      ))}
+    </View>
   )
 }
 
@@ -122,12 +117,13 @@ export const BottomNav = () => {
   )
 }
 
-const BottomMenuItem: FC<{ barProps: any; navigation: any }> = ({
-  barProps,
-  navigation,
-}) => {
+const BottomMenuItem: FC<{
+  route: Route
+  selected: boolean
+  navigation: any
+}> = ({ route, selected, navigation }) => {
   const [open, setOpen] = useState(false)
-  const options = routesConfig[barProps.route.name as Routes]
+  const options = routesConfig[route.name]
   const { t } = useTranslation()
   const onPress = ({ route, selected }: any) => {
     const e = navigation.emit({
@@ -160,8 +156,8 @@ const BottomMenuItem: FC<{ barProps: any; navigation: any }> = ({
       label: action.label,
       onPress: () => {
         onPress({
-          route: barProps.route,
-          selected: barProps.accessibilityState?.selected,
+          route: route,
+          selected: selected,
         })
         setOpen(false)
       },
@@ -175,7 +171,8 @@ const BottomMenuItem: FC<{ barProps: any; navigation: any }> = ({
           options={options}
           onLongPress={onLongPress}
           onPress={onPress}
-          barProps={barProps}
+          route={route}
+          selected={selected}
           navigation={navigation}
         />
       )}
@@ -205,7 +202,8 @@ const BottomMenuItem: FC<{ barProps: any; navigation: any }> = ({
                   onPress={() => {
                     setOpen(!open)
                   }}
-                  barProps={barProps}
+                  route={route}
+                  selected={selected}
                   navigation={navigation}
                 />
               )}
@@ -229,32 +227,38 @@ const NavItem: FC<{
   options: RouteConfig
   onPress: (prop: any) => void
   onLongPress: (prop: any) => void
-  barProps: any
   navigation: any
-}> = ({ options, onPress, onLongPress, barProps, navigation }) => {
+  selected: boolean
+  route: Route
+}> = ({ options, onPress, onLongPress, navigation, route, selected }) => {
   const { t } = useTranslation()
   return (
     <TouchableOpacity
       accessibilityRole="button"
-      accessibilityState={barProps.accessibilityState}
       accessibilityLabel={t(options.label)}
       testID={options.tabBarTestID}
       onPress={(e) => {
         onPress({
-          route: barProps.route,
-          selected: barProps.accessibilityState?.selected,
+          route: route,
+          selected: selected,
         })
       }}
       onLongPress={onLongPress}
-      style={{ flex: 1 }}
+      style={{
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignContent: 'center',
+      }}
     >
       <IconButton
-        mode={barProps.accessibilityState?.selected && 'contained'}
+        mode={selected ? 'contained' : undefined}
         icon={options.icon}
       />
       <Text
         style={{
-          color: barProps.accessibilityState?.selected ? '#673ab7' : '#222',
+          color: selected ? '#673ab7' : '#222',
         }}
       >
         {t(options.label)}
