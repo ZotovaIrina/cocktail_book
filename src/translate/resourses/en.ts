@@ -11,4 +11,9 @@ export default {
     settings: 'Settings',
     shoppingCart: 'List',
   },
+  settings: {
+    changeLanguage: "Language",
+    ru: "Russian",
+    en: "English"
+  }
 }

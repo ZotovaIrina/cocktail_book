@@ -2,17 +2,10 @@ import i18next from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import en from './resourses/en'
 import ru from './resourses/ru'
-
-const languageDetector: any = {
-  type: 'languageDetector',
-  async: true,
-  detect: (cb: any) => cb('en'),
-  init: () => {},
-  cacheUserLanguage: () => {},
-}
+import LanguageDetector from 'i18next-browser-languagedetector'
 
 i18next
-  .use(languageDetector)
+  .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     fallbackLng: 'en',

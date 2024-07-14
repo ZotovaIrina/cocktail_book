@@ -75,7 +75,6 @@ export const routesConfig: Record<Routes, RouteConfig> = {
 function MyTabBar({ navigation, state, descriptors, insets }: any) {
   const { t } = useTranslation()
 
-  console.log('navigation', navigation, state)
   return (
     <View
       style={{
@@ -185,7 +184,6 @@ const BottomMenuItem: FC<{
   }
 
   const onLongPress = ({ route, preventDefault }: any) => {
-    console.log('onLongPress')
     navigation.emit({
       type: 'tabLongPress',
       target: route.key,

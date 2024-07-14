@@ -11,4 +11,9 @@ export default {
     settings: 'Настройки',
     shoppingCart: 'Список',
   },
+  settings: {
+    changeLanguage: "Язык приложения",
+    ru: "Русский",
+    en: "Английский"
+  }
 }
