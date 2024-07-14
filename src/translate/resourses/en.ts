@@ -8,5 +8,6 @@ export default {
     ingredients: 'Ingredients',
     addIngredient: 'Add New Ingredient',
     cocktails: 'Cocktails',
+    settings: "Settings"
   },
 }

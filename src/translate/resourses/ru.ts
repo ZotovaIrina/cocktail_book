@@ -7,6 +7,7 @@ export default {
         appName: 'Коктейли',
         ingredients: 'Ингридиенты',
         addIngredient: 'Добавить новый ингредиент',
-        cocktails: 'Коктейли'
+        cocktails: 'Коктейли',
+        settings: "Настройки"
       }
    };
