@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { BaseUrl } from './BaseUrl'
-import { IIngredient } from '../ingredients/types/IIngredient'
+import { BaseUrl } from '../../api/BaseUrl'
+import { IIngredient } from '../types/IIngredient'
 
 const INGREDIENTS_BASE_URL = BaseUrl + '/ingredients'
 

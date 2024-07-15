@@ -3,6 +3,7 @@ export default {
   category: 'Категория',
   description: 'Описание',
   save: 'Сохранить',
+  quantity: 'Количество',
   navigation: {
     appName: 'Коктейли',
     ingredients: 'Ингридиенты',
@@ -10,10 +11,11 @@ export default {
     cocktails: 'Коктейли',
     settings: 'Настройки',
     shoppingCart: 'Список',
+    addCocktail: 'Добавить новый коктейль',
   },
   settings: {
-    changeLanguage: "Язык приложения",
-    ru: "Русский",
-    en: "Английский"
-  }
+    changeLanguage: 'Язык приложения',
+    ru: 'Русский',
+    en: 'Английский',
+  },
 }

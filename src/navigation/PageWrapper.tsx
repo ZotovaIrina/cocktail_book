@@ -11,6 +11,7 @@ export const PageWrapper: FC<{ children: ReactNode }> = ({ children }) => {
         paddingTop: 10,
         paddingLeft: 10,
         paddingRight: 10,
+        paddingBottom: 20,
       }}
     >
       {children}

@@ -2,13 +2,14 @@ import { FC, useState } from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Text, FAB, IconButton, Menu } from 'react-native-paper'
 import { Ingredients } from '../ingredients/components/Ingredients'
-import { Cocktails } from '../cocktails/Cocktails'
+import { Cocktails } from '../cocktails/components/Cocktails'
 import { View, TouchableOpacity } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 import { AddIngredient } from '../ingredients/components/AddIngredient'
 import { Settings } from '../settings/Settings'
 import { ShoppingCart } from '../shoppingCart/ShoppingCart'
+import { AddCocktail } from '../cocktails/components/AddCocktail'
 
 const Tab = createBottomTabNavigator()
 interface Route {
@@ -26,6 +27,7 @@ interface RouteConfig {
 export enum Routes {
   Ingredients = 'Ingredients',
   AddIngredient = 'AddIngredient',
+  AddCocktail = 'AddCocktail',
   Cocktails = 'Cocktails',
   PlusMenu = 'PlusMenu',
   SettingsMenu = 'SettingsMenu',
@@ -43,6 +45,13 @@ export const routesConfig: Record<Routes, RouteConfig> = {
     menuRoute: true,
     menuName: MenuName.Plus,
     icon: 'bottle-wine',
+  },
+  [Routes.AddCocktail]: {
+    label: 'navigation.addCocktail',
+    tabBarTestID: Routes.AddCocktail,
+    menuRoute: true,
+    menuName: MenuName.Plus,
+    icon: 'glass-cocktail',
   },
   [Routes.Ingredients]: {
     label: 'navigation.ingredients',
@@ -112,6 +121,7 @@ export const BottomNav = () => {
             [Routes.AddIngredient]: Routes.AddIngredient,
             [Routes.SettingsMenu]: Routes.SettingsMenu,
             [Routes.ShoppingCart]: Routes.ShoppingCart,
+            [Routes.AddCocktail]: Routes.AddCocktail,
           },
         },
       }}
@@ -162,6 +172,13 @@ export const BottomNav = () => {
           component={AddIngredient}
           options={{
             title: t(routesConfig[Routes.AddIngredient].label),
+          }}
+        />
+        <Tab.Screen
+          name={Routes.AddCocktail}
+          component={AddCocktail}
+          options={{
+            title: t(routesConfig[Routes.AddCocktail].label),
           }}
         />
       </Tab.Navigator>

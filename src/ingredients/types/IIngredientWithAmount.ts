@@ -1,6 +1,7 @@
+import { Unit } from './Unit'
 
 export interface IIngredientWithAmount {
-    ingredientId: string;
-    amount: number;
-    unit: string;
+  _id: string
+  quantity: number
+  unit: Unit
 }

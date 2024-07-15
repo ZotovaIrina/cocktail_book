@@ -2,6 +2,8 @@ export default {
   name: 'Name',
   category: 'Category',
   description: 'Description',
+  ingredients: 'Ingredients',
+  quantity: 'Quantity',
   save: 'Save',
   navigation: {
     appName: 'Cocktail book',
@@ -10,10 +12,11 @@ export default {
     cocktails: 'Cocktails',
     settings: 'Settings',
     shoppingCart: 'List',
+    addCocktail: 'Add New Cocktail',
   },
   settings: {
-    changeLanguage: "Language",
-    ru: "Russian",
-    en: "English"
-  }
+    changeLanguage: 'Language',
+    ru: 'Russian',
+    en: 'English',
+  },
 }

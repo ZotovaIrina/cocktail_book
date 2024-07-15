@@ -2,28 +2,37 @@ import React, { FC, ReactElement, useRef, useState } from 'react'
 import {
   FlatList,
   StyleSheet,
-  Text,
   TouchableOpacity,
   Modal,
   View,
 } from 'react-native'
-import { Icon } from 'react-native-elements'
+import { Icon, Text } from 'react-native-elements'
 import { InputCell } from './InputCell'
+import { TextField } from './TextField'
+import { Control } from 'react-hook-form'
 
 interface SelectFieldProps {
   label: string
   options: SelectOption[]
   onSelect: (item: SelectOption) => void
+  name: string
+  control: Control<any, any>
 }
 export const SelectField: React.FC<SelectFieldProps> = ({
   label,
   options,
   onSelect,
+  name,
+  control,
 }) => {
   return (
-    <InputCell label={label}>
-      <Dropdown label={label} data={options} onSelect={onSelect}></Dropdown>
-    </InputCell>
+    <Dropdown
+      label={label}
+      data={options}
+      onSelect={onSelect}
+      name={name}
+      control={control}
+    ></Dropdown>
   )
 }
 
@@ -35,12 +44,16 @@ interface Props {
   label: string
   data: Array<{ label: string; value: string }>
   onSelect: (item: { label: string; value: string }) => void
+  name: string
+  control: Control<any, any>
 }
 
-const Dropdown: FC<Props> = ({ label, data, onSelect }) => {
+const Dropdown: FC<Props> = ({ label, data, onSelect, control, name }) => {
   const DropdownButton = useRef()
   const [visible, setVisible] = useState(false)
-  const [selected, setSelected] = useState(undefined)
+  const [selected, setSelected] = useState<
+    { value: any; label: string } | undefined
+  >(undefined)
   const [dropdownTop, setDropdownTop] = useState(0)
 
   const toggleDropdown = (): void => {
@@ -66,6 +79,7 @@ const Dropdown: FC<Props> = ({ label, data, onSelect }) => {
   }
 
   const onItemPress = (item: any): void => {
+    console.log('item', item)
     setSelected(item)
     onSelect(item)
     setVisible(false)
@@ -99,14 +113,21 @@ const Dropdown: FC<Props> = ({ label, data, onSelect }) => {
   return (
     <TouchableOpacity
       ref={DropdownButton}
+      testID="select-input"
       style={styles.button}
       onPress={toggleDropdown}
     >
       {renderDropdown()}
-      <Text style={styles.buttonText}>
-        {(!!selected && selected.label) || label}
-      </Text>
-      <Icon style={styles.icon} type="font-awesome" name="chevron-down" />
+      <View style={{ flex: 1 }}>
+        <TextField
+          label={label}
+          defaultValue={selected?.label}
+          name={name}
+          control={control}
+          endIcon={'chevron-down'}
+          onIconClick={toggleDropdown}
+        />
+      </View>
     </TouchableOpacity>
   )
 }
@@ -118,6 +139,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#efefef',
     height: 50,
     zIndex: 1,
+    flex: 1,
   },
   buttonText: {
     flex: 1,
@@ -134,6 +156,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     shadowOffset: { height: 4, width: 0 },
     shadowOpacity: 0.5,
+    flex: 1,
   },
   overlay: {
     width: '100%',
